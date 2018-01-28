@@ -223,7 +223,7 @@ static unsigned long scannerNumber = 0;
     });
 }
 
-- (void)centralManagerConnectedTo:(CBPeripheral *)peripheral at:(NSDate *)time{
+- (void)centralManagerConnectedTo:(__unused CBPeripheral *)peripheral at:(__unused NSDate *)time{
     if (self.peripheral == nil) {
         NSLog(@"%@: connected to peripheral but internal peripheral is nil", [self class]);
         return;
@@ -338,7 +338,7 @@ static unsigned long scannerNumber = 0;
     return YES;
 }
 
-- (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary *)state{
+- (void)centralManager:(__unused CBCentralManager *)central willRestoreState:(__unused NSDictionary *)state{
     
 #if BLE_RESTORE_ENABLED
     if (self.centralManager.state == CBCentralManagerStatePoweredOn){
@@ -424,11 +424,11 @@ static unsigned long scannerNumber = 0;
         return;
     }
     
-    __weak typeof(self) weakSelf = self;
+    __weak __typeof__(self) weakSelf = self;
     
     dispatch_async(self.centralQueue, ^{
         
-        typeof(self) self = weakSelf;
+        __typeof__(self) self = weakSelf;
         if (self) {
             NSUUID *uuid = [self.peripheralScanModel peripheralUuidToSearch];
             if (uuid == nil){
@@ -489,10 +489,13 @@ static unsigned long scannerNumber = 0;
     if (_searchTimerSource == nil) {
         _searchTimerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, self.searchQueue);
         if (_searchTimerSource) {
-            __weak typeof(self) weakSelf = self;
+            __weak __typeof__(self) weakSelf = self;
             dispatch_source_set_event_handler(self.searchTimerSource, ^{
-                [weakSelf stopSearchTimer];
-                [weakSelf handleScanTimerExpiration];
+                __typeof__(self) strongSelf = weakSelf;
+                if (strongSelf) {
+                    [strongSelf stopSearchTimer];
+                    [strongSelf handleScanTimerExpiration];
+                }
             });
         }
     }
@@ -500,8 +503,9 @@ static unsigned long scannerNumber = 0;
 }
 
 - (void)startSearchTimerWithSeconds:(NSUInteger)seconds{
-    dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, seconds * NSEC_PER_SEC);
-    uint64_t interval = seconds * NSEC_PER_SEC;
+    int64_t delta = (int64_t)seconds * (int64_t)NSEC_PER_SEC;
+    dispatch_time_t startTime = dispatch_time(DISPATCH_TIME_NOW, delta);
+    uint64_t interval = (uint64_t)seconds * NSEC_PER_SEC;
     
     dispatch_source_t source = [self searchTimerSource];
     dispatch_source_set_timer(source, startTime, interval, NSEC_PER_SEC / 10);

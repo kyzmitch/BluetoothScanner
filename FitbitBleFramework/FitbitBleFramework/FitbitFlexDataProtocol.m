@@ -10,15 +10,15 @@
 
 @implementation FitbitFlexDataProtocol
 
-- (void)handleNewCharacteristicValue:(CBCharacteristic *)characteristic {
+- (void)handleNewCharacteristicValue:(__unused CBCharacteristic *)characteristic {
     
 }
 
-- (void)handleCharacteristicStateUpdate:(CBCharacteristic *)characteristic {
+- (void)handleCharacteristicStateUpdate:(__unused CBCharacteristic *)characteristic {
     
 }
 
-- (void)setBluetoothInterface:(id<BaseDeviceServiceProtocol>)interface {
+- (void)setBluetoothInterface:(__unused id<BaseDeviceServiceProtocol>)interface {
     
 }
 

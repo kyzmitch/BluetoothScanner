@@ -108,7 +108,7 @@ static unsigned long peripheralDelegateNumber = 0;
     }
 }
 
-- (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error{
+- (void)peripheral:(__unused CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error{
     
     if (error){
         NSLog(@"%@: notification State error %@", [self class], [error description]);
@@ -133,7 +133,7 @@ static unsigned long peripheralDelegateNumber = 0;
 
 }
 
--(void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+-(void)peripheral:(__unused CBPeripheral *)peripheral didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
     // @NOTE: will be invoked to handle response for read request
     // and for incoming notification

@@ -29,27 +29,34 @@ static unsigned long centralDelegateNumber = 0;
 - (void)centralManagerDidUpdateState:(CBCentralManager *)centr{
     NSLog(@"%@: state changed %ld", [self class], (long)centr.state);
     
+    // creating strong ref
+    __typeof__(self.bluetoothCallbackDelegate) bleDelegate = self.bluetoothCallbackDelegate;
+    
     switch (centr.state){
         case CBManagerStatePoweredOn:{
-            [self.bluetoothCallbackDelegate centralManagerPoweredOn:YES withState:centr.state];
+            [bleDelegate centralManagerPoweredOn:YES withState:centr.state];
             break;
         }
         default:{
-            [self.bluetoothCallbackDelegate centralManagerPoweredOn:NO withState:centr.state];
+            [bleDelegate centralManagerPoweredOn:NO withState:centr.state];
         }
             break;
     }
 }
 
-- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+- (void)centralManager:(__unused CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral {
+    
+    // About using of attributes like __unused and syntax
+    // https://stackoverflow.com/a/36832021
     
     NSDate *time = [NSDate date];
     NSLog(@"%@: connected peripheral %@", [self class], peripheral.identifier.UUIDString);
     
-    BOOL isItSearchedPeripheral = [self.bluetoothCallbackDelegate peripheralHasSameUUID:peripheral.identifier];
+    __typeof__(self.bluetoothCallbackDelegate) bleDelegate = self.bluetoothCallbackDelegate;
+    BOOL isItSearchedPeripheral = [bleDelegate peripheralHasSameUUID:peripheral.identifier];
     
     if (isItSearchedPeripheral){
-        [self.bluetoothCallbackDelegate centralManagerConnectedTo:peripheral at:time];
+        [bleDelegate centralManagerConnectedTo:peripheral at:time];
         
         dispatch_async(self.centralDelegateQueue, ^{
             NSDictionary *stateUserInfo = @{kTimestampDataKey: time,
@@ -94,7 +101,7 @@ static unsigned long centralDelegateNumber = 0;
     }
 }
 
-- (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
+- (void)centralManager:(__unused CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error{
     
     NSDate *timestamp = [NSDate date];
     
@@ -103,7 +110,8 @@ static unsigned long centralDelegateNumber = 0;
           peripheral.name,
           (error != nil ? [error description]: @"no error"));
     
-    BOOL isItSearchedPeripheral = [self.bluetoothCallbackDelegate peripheralHasSameUUID:peripheral.identifier];
+    __typeof__(self.bluetoothCallbackDelegate) bleDelegate = self.bluetoothCallbackDelegate;
+    BOOL isItSearchedPeripheral = [bleDelegate peripheralHasSameUUID:peripheral.identifier];
     
     if (isItSearchedPeripheral){
         dispatch_async(self.centralDelegateQueue, ^{
@@ -125,19 +133,20 @@ static unsigned long centralDelegateNumber = 0;
         });
     }
     
-    [self.bluetoothCallbackDelegate centralManagerFailConnectTo:peripheral];
+    [bleDelegate centralManagerFailConnectTo:peripheral];
 }
 
-- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
+- (void)centralManager:(__unused CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error {
     
     NSDate *timestamp = [NSDate date];
     NSString *currentUuid = peripheral.identifier.UUIDString;
     NSLog(@"%@: peripheral disconnected %@: %@", [self class], currentUuid, error ? [error description] : @"no error");
     
-    BOOL isItSearchedPeripheral = [self.bluetoothCallbackDelegate peripheralHasSameUUID:peripheral.identifier];
+    __typeof__(self.bluetoothCallbackDelegate) bleDelegate = self.bluetoothCallbackDelegate;
+    BOOL isItSearchedPeripheral = [bleDelegate peripheralHasSameUUID:peripheral.identifier];
     if (isItSearchedPeripheral){
         
-        [self.bluetoothCallbackDelegate centralManagerDisconnected:peripheral];
+        [bleDelegate centralManagerDisconnected:peripheral];
         
         dispatch_async(self.centralDelegateQueue, ^{
             // @NOTE: Avoid updating your windows and views in background
@@ -159,7 +168,7 @@ static unsigned long centralDelegateNumber = 0;
     }
 }
 
-- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI{
+- (void)centralManager:(__unused CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI{
     
     NSString *name = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
     NSLog(@"%@: peripheral found: %@ - %@ at %@ uuid: %@",
