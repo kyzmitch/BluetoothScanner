@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:FitbitBleFramework/FitbitBleFramework.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:ScannerIOSDemo/ScannerIOSDemo.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:BleScannerFramework/BleScanner.xcodeproj">
+   </FileRef>
+</Workspace>
