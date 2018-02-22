@@ -44,7 +44,7 @@
 
 - (NSUUID *)peripheralUuidToSearch{
     NSUserDefaults *settings = [NSUserDefaults standardUserDefaults];
-    NSString *cachedUuid = [settings valueForKey:kPairedPeripheralUuid];
+    NSString *cachedUuid = [settings stringForKey:kPairedPeripheralUuid];
     if (cachedUuid) {
         return [[NSUUID alloc] initWithUUIDString:cachedUuid];
     }
@@ -82,14 +82,14 @@
     
     NSArray<id<PeripheralBasicInfoProtocol>> *result;
     @synchronized (self) {
-        result = [_foundPeripherals objectForKey:name];
+        result = _foundPeripherals[name];
     }
     return result;
 }
 
 - (void)addPeripheral:(id<PeripheralBasicInfoProtocol>)info forName:(NSString *)name{
     @synchronized (self) {
-        NSMutableArray<id<PeripheralBasicInfoProtocol>> *array = [_foundPeripherals objectForKey:name];
+        NSMutableArray<id<PeripheralBasicInfoProtocol>> *array = _foundPeripherals[name];
         if (array) {
             [array addObject:info];
         }
@@ -127,7 +127,7 @@
     
     @synchronized (self) {
         for (NSString *name in _foundPeripherals.allKeys) {
-            NSArray<id<PeripheralBasicInfoProtocol>> *array = [_foundPeripherals objectForKey:name];
+            NSArray<id<PeripheralBasicInfoProtocol>> *array = _foundPeripherals[name];
             for (id<PeripheralBasicInfoProtocol> info in array) {
                 if (info.RSSI == nil){
                     continue;

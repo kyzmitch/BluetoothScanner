@@ -33,9 +33,7 @@ static unsigned long peripheralDelegateNumber = 0;
         NSLog(@"%@: failed to discover services of %@ - error: %@", [self class], peripheral.identifier.UUIDString, [error description]);
         
         dispatch_async(self.peripheralDelegateQueue, ^{
-            NSNumber *errCodeNum = [NSNumber numberWithUnsignedInteger:kBleFailedDiscoverServices];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:errCodeNum,
-                                      kBleCharacteristicsScanStatusDataKey, nil];
+            NSDictionary *userInfo = @{kBleCharacteristicsScanStatusDataKey: @(kBleFailedDiscoverServices)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kBleScanCharacteristicsNotification
                                                                 object:nil
@@ -47,9 +45,7 @@ static unsigned long peripheralDelegateNumber = 0;
     if (peripheral.services == nil || peripheral.services.count == 0){
         NSLog(@"%@: peripheral has no any services", [self class]);
         dispatch_async(self.peripheralDelegateQueue, ^{
-            NSNumber *errCodeNum = [NSNumber numberWithUnsignedInteger:kBleNoServicesDiscovered];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:errCodeNum,
-                                      kBleCharacteristicsScanStatusDataKey, nil];
+            NSDictionary *userInfo = @{kBleCharacteristicsScanStatusDataKey: @(kBleNoServicesDiscovered)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kBleScanCharacteristicsNotification
                                                                 object:nil
@@ -62,9 +58,7 @@ static unsigned long peripheralDelegateNumber = 0;
     
     if (allNeededServicesFound == NO){
         dispatch_async(self.peripheralDelegateQueue, ^{
-            NSNumber *errCodeNum = [NSNumber numberWithUnsignedInteger:kBleNotAllServicesDiscovered];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:errCodeNum,
-                                      kBleCharacteristicsScanStatusDataKey, nil];
+            NSDictionary *userInfo = @{kBleCharacteristicsScanStatusDataKey: @(kBleNotAllServicesDiscovered)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kBleScanCharacteristicsNotification
                                                                 object:nil
@@ -80,9 +74,7 @@ static unsigned long peripheralDelegateNumber = 0;
     if (error){
         NSLog(@"%@: failed to discover characteristics for service %@ with error: %@", [self class], service.UUID.UUIDString, [error description]);
         dispatch_async(self.peripheralDelegateQueue, ^{
-            NSNumber *errCodeNum = [NSNumber numberWithUnsignedInteger:kBleFailedToDiscoverCharacteristics];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:errCodeNum,
-                                      kBleCharacteristicsScanStatusDataKey, nil];
+            NSDictionary *userInfo = @{kBleCharacteristicsScanStatusDataKey: @(kBleFailedToDiscoverCharacteristics)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kBleScanCharacteristicsNotification
                                                                 object:nil
@@ -95,9 +87,7 @@ static unsigned long peripheralDelegateNumber = 0;
     
     if (allCharacteristicsWereFound){
         dispatch_async(self.peripheralDelegateQueue, ^{
-            NSNumber *errCodeNum = [NSNumber numberWithUnsignedInteger:kBleCharacteristicsDiscoveringDone];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:errCodeNum,
-                                      kBleCharacteristicsScanStatusDataKey, nil];
+            NSDictionary *userInfo = @{kBleCharacteristicsScanStatusDataKey: @(kBleCharacteristicsDiscoveringDone)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kBleScanCharacteristicsNotification
                                                                 object:nil
@@ -113,9 +103,7 @@ static unsigned long peripheralDelegateNumber = 0;
     if (error){
         NSLog(@"%@: notification State error %@", [self class], [error description]);
         dispatch_async(self.peripheralDelegateQueue, ^{
-            NSNumber *errCodeNum = [NSNumber numberWithUnsignedInteger:kBleFailedToSubscribeForNotifications];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:errCodeNum,
-                                      kBleSubscriptionStateDataKey, nil];
+            NSDictionary *userInfo = @{kBleSubscriptionStateDataKey: @(kBleFailedToSubscribeForNotifications)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kBleSubscribeStateNotification
                                                                 object:nil

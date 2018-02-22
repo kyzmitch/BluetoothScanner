@@ -87,7 +87,7 @@ static unsigned long scannerNumber = 0;
     NSDate *timestamp = [NSDate date];
     
     NSDictionary *userInfo = @{kTimestampDataKey: timestamp,
-                               kBleCentralStateDataKey: [NSNumber numberWithInteger:state]};
+                               kBleCentralStateDataKey: @(state)};
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kBleCentralStateNotification
                                                         object:nil
@@ -296,7 +296,7 @@ static unsigned long scannerNumber = 0;
         }
     }
     else{
-        NSString *name = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
+        NSString *name = advertisementData[CBAdvertisementDataLocalNameKey];
 #if BLE_CHECK_FOR_RSSI
         if ([[self.peripheralScanModel namesToSearch] containsObject:name]){
             PeripheralInfo *deviceInfo = [PeripheralInfo new];
@@ -344,7 +344,7 @@ static unsigned long scannerNumber = 0;
     if (self.centralManager.state == CBCentralManagerStatePoweredOn){
         NSArray *peripherals = state[CBCentralManagerRestoredStatePeripheralsKey];
         if (peripherals && peripherals.count != 0){
-            CBPeripheral *peripheral = [peripherals objectAtIndex:0];
+            CBPeripheral *peripheral = peripherals[0];
             
             NSLog(@"%@: going to reconnect with restored peripheral", [self class]);
             dispatch_async(self.centralQueue, ^{
@@ -380,7 +380,7 @@ static unsigned long scannerNumber = 0;
             NSLog(@"%@: strange but retrieved peripherals count %lu > 1", [self class], (unsigned long)peripherals.count);
         }
         
-        id obj = [peripherals objectAtIndex:0];
+        id obj = peripherals[0];
         if ([obj isKindOfClass:[CBPeripheral class]]){
             peripheral = obj;
             peripheralRetrieved = YES;

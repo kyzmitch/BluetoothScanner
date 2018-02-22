@@ -25,15 +25,15 @@
 }
 
 - (NSArray<CBUUID *> *)characteristicsForService:(CBUUID *)uuid {
-    return [_characteristicsUuids objectForKey:uuid];
+    return _characteristicsUuids[uuid];
 }
 
 #pragma mark - BluetoothPeripheralInterfaceValidator
 
 - (void)markServiceAsCheckedForUuid:(CBUUID *)checkedUuid {
     @synchronized (self) {
-        if ([_serviceChecks objectForKey:checkedUuid] != nil) {
-            [_serviceChecks setObject:@(YES) forKey:checkedUuid];
+        if (_serviceChecks[checkedUuid] != nil) {
+            _serviceChecks[checkedUuid] = @(YES);
         }
         else{
             NSLog(@"%@: unknown service uuid %@", [self class], checkedUuid);
@@ -50,7 +50,8 @@
 - (BOOL)isInterfaceCompletelyMatch {
     @synchronized (self) {
         for (CBUUID *key in _serviceChecks.allKeys) {
-            NSNumber *value = [_serviceChecks objectForKey:key];
+            NSNumber *value = _serviceChecks[key];
+            // TODO: add check if it is really NSNumber or not
             if (value.boolValue == NO) {
                 return NO;
             }
@@ -66,7 +67,7 @@
 #pragma mark - PeripheralCharacteristicsProtocol
 
 - (CBCharacteristic *)getCharacteristicByUuid:(NSString *)uuid fromService:(CBUUID *)serviceUuid{
-    NSArray<CBCharacteristic *> *array = [_characteristicsDictionary objectForKey:serviceUuid];
+    NSArray<CBCharacteristic *> *array = _characteristicsDictionary[serviceUuid];
     for (CBCharacteristic *ch in array) {
         if ([ch.UUID.UUIDString isEqualToString:uuid]) {
             return ch;

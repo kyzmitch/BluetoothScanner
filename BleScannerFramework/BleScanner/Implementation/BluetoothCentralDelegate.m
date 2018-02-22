@@ -60,20 +60,15 @@ static unsigned long centralDelegateNumber = 0;
         
         dispatch_async(self.centralDelegateQueue, ^{
             NSDictionary *stateUserInfo = @{kTimestampDataKey: time,
-                                            kPeripheralStateDataKey: [NSNumber numberWithInteger:peripheral.state]};
+                                            kPeripheralStateDataKey: @(peripheral.state)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kBlePeripheralStateNotification
                                                                 object:nil
                                                               userInfo:stateUserInfo];
             
-            NSNumber *successCodeNum = [NSNumber numberWithUnsignedInteger:kBleSearchedPeripheralFoundAndConnected];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:successCodeNum,
-                                      kBlePeripheralConnectStatusDataKey,
-                                      peripheral.identifier.UUIDString,
-                                      kBlePeripheralUuidDataKey,
-                                      peripheral.name,
-                                      kBlePeripheralNameDataKey,
-                                      nil];
+            NSDictionary *userInfo = @{kBlePeripheralConnectStatusDataKey: @(kBleSearchedPeripheralFoundAndConnected),
+                                       kBlePeripheralUuidDataKey: peripheral.identifier.UUIDString,
+                                       kBlePeripheralNameDataKey: peripheral.name};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kConnectWithPeripheralNotification
                                                                 object:nil
@@ -90,9 +85,7 @@ static unsigned long centralDelegateNumber = 0;
                                                                 object:nil
                                                               userInfo:stateUserInfo];
             
-            NSNumber *successCodeNum = [NSNumber numberWithUnsignedInteger:kBleConnectedWithNotSearchedPeripheral];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:successCodeNum,
-                                      kBlePeripheralConnectStatusDataKey, nil];
+            NSDictionary *userInfo = @{kBlePeripheralConnectStatusDataKey: @(kBleConnectedWithNotSearchedPeripheral)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kConnectWithPeripheralNotification
                                                                 object:nil
@@ -123,9 +116,7 @@ static unsigned long centralDelegateNumber = 0;
                                                                 object:nil
                                                               userInfo:stateUserInfo];
             
-            NSNumber *successCodeNum = [NSNumber numberWithUnsignedInteger:kBleFailedToConnectPeripheral];
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:successCodeNum,
-                                      kBlePeripheralConnectStatusDataKey, nil];
+            NSDictionary *userInfo = @{kBlePeripheralConnectStatusDataKey: @(kBleFailedToConnectPeripheral)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kConnectWithPeripheralNotification
                                                                 object:nil
@@ -157,9 +148,7 @@ static unsigned long centralDelegateNumber = 0;
                                                                 object:nil
                                                               userInfo:stateUserInfo];
             
-            NSNumber *successCodeNum = [NSNumber numberWithUnsignedInteger:kBlePeripheralDisconnected];
-            NSDictionary *connectUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:successCodeNum,
-                                             kBlePeripheralConnectStatusDataKey, nil];
+            NSDictionary *connectUserInfo = @{kBlePeripheralConnectStatusDataKey: @(kBlePeripheralDisconnected)};
             
             [[NSNotificationCenter defaultCenter] postNotificationName:kConnectWithPeripheralNotification
                                                                 object:nil
@@ -170,7 +159,7 @@ static unsigned long centralDelegateNumber = 0;
 
 - (void)centralManager:(__unused CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI{
     
-    NSString *name = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
+    NSString *name = advertisementData[CBAdvertisementDataLocalNameKey];
     NSLog(@"%@: peripheral found: %@ - %@ at %@ uuid: %@",
           [self class],
           peripheral.name,
