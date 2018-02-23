@@ -19,3 +19,4 @@ FOUNDATION_EXPORT const unsigned char BLEScannerVersionString[];
 #import <BLEScanner/BluetoothConstants.h>
 #import <BLEScanner/PeripheralCharacteristicsProtocol.h>
 #import <BLEScanner/PeripheralServicesFactory.h>
+#import <BLEScanner/PeripheralServicesFactorySubclass.h>

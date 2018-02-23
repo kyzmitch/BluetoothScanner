@@ -7,6 +7,7 @@
 //
 
 #import "PeripheralServicesFactory.h"
+#import "PeripheralServicesFactorySubclass.h"
 
 @implementation PeripheralServicesFactory
 
@@ -43,7 +44,7 @@
 - (void)resetAllCheckmarksForServices {
     @synchronized (self) {
         for (CBUUID *key in _serviceChecks.allKeys) {
-            [_serviceChecks setObject:@(NO) forKey:key];
+            _serviceChecks[key] = @(NO);
         }
     }
 }
@@ -61,7 +62,7 @@
 }
 
 - (void)saveCharacteristics:(NSArray<CBCharacteristic *> *)characteristics forService:(CBUUID *)uuid{
-    [_characteristicsDictionary setObject:characteristics forKey:uuid];
+    _characteristicsDictionary[uuid] = characteristics;
 }
 
 #pragma mark - PeripheralCharacteristicsProtocol

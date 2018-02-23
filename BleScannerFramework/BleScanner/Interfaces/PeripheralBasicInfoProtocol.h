@@ -12,6 +12,6 @@
 @required
 @property (nonatomic, strong) NSNumber *RSSI;
 @property (nonatomic, strong) CBPeripheral *peripheral;
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, copy) NSString *name;
 
 @end

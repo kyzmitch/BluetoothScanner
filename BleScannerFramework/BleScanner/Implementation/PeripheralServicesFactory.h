@@ -16,12 +16,9 @@
 
 @interface PeripheralServicesFactory : NSObject <BluetoothPeripheralAbstractFactory, BluetoothPeripheralInterfaceValidator, PeripheralCharacteristicsProtocol>
 
-// TODO: somehow make following properties not public or
-// not possible for modifications outside of child class init methods
-
-@property (nonatomic, strong, nonnull) NSArray<CBUUID *> *backgroundServices;
-@property (nonatomic, strong, nonnull) NSDictionary<CBUUID *, NSArray<CBUUID *> *> *characteristicsUuids;
-@property (nonatomic, strong, nonnull) NSMutableDictionary<CBUUID *, NSNumber *> *serviceChecks;
-@property (nonatomic, strong, nonnull) NSMutableDictionary<CBUUID *, NSArray<CBCharacteristic *> *> *characteristicsDictionary;
+@property (nonatomic, strong, nonnull, readonly) NSArray<CBUUID *> *backgroundServices;
+@property (nonatomic, strong, nonnull, readonly) NSDictionary<CBUUID *, NSArray<CBUUID *> *> *characteristicsUuids;
+@property (nonatomic, strong, nonnull, readonly) NSMutableDictionary<CBUUID *, NSNumber *> *serviceChecks;
+@property (nonatomic, strong, nonnull, readonly) NSMutableDictionary<CBUUID *, NSArray<CBCharacteristic *> *> *characteristicsDictionary;
 
 @end

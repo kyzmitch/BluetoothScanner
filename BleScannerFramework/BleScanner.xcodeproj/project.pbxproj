@@ -35,6 +35,7 @@
 		849390141FFE47E4000325B3 /* BluetoothScanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8493900A1FFE47E4000325B3 /* BluetoothScanModel.m */; };
 		849390151FFE47E4000325B3 /* PeripheralInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 8493900B1FFE47E4000325B3 /* PeripheralInfo.h */; };
 		849390161FFE47E4000325B3 /* PeripheralInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8493900C1FFE47E4000325B3 /* PeripheralInfo.m */; };
+		C711A924204008ED000795FF /* PeripheralServicesFactorySubclass.h in Headers */ = {isa = PBXBuildFile; fileRef = C711A92320400783000795FF /* PeripheralServicesFactorySubclass.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		8493900A1FFE47E4000325B3 /* BluetoothScanModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BluetoothScanModel.m; sourceTree = "<group>"; };
 		8493900B1FFE47E4000325B3 /* PeripheralInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralInfo.h; sourceTree = "<group>"; };
 		8493900C1FFE47E4000325B3 /* PeripheralInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralInfo.m; sourceTree = "<group>"; };
+		C711A92320400783000795FF /* PeripheralServicesFactorySubclass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PeripheralServicesFactorySubclass.h; path = BleScanner/Implementation/PeripheralServicesFactorySubclass.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +147,7 @@
 				8493900C1FFE47E4000325B3 /* PeripheralInfo.m */,
 				844542BF201D015D0006DDC9 /* PeripheralServicesFactory.h */,
 				844542C0201D015D0006DDC9 /* PeripheralServicesFactory.m */,
+				C711A92320400783000795FF /* PeripheralServicesFactorySubclass.h */,
 			);
 			path = Implementation;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 				84938FFD1FFE47DB000325B3 /* BluetoothPeripheralInterfaceValidator.h in Headers */,
 				84938FF81FFE47DB000325B3 /* BluetoothCentralCallbacksProtocol.h in Headers */,
 				84938FFE1FFE47DB000325B3 /* BluetoothScanProtocol.h in Headers */,
+				C711A924204008ED000795FF /* PeripheralServicesFactorySubclass.h in Headers */,
 				84938FFB1FFE47DB000325B3 /* BluetoothEngineInterface.h in Headers */,
 				849390001FFE47DB000325B3 /* PeripheralBasicInfoProtocol.h in Headers */,
 				84938FFF1FFE47DB000325B3 /* BluetoothValuesProtocol.h in Headers */,

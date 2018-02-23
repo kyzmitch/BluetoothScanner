@@ -7,6 +7,7 @@
 //
 
 #import "FitbitFlexServicesFactory.h"
+#import <BLEScanner/PeripheralServicesFactorySubclass.h>
 #import <BLEScanner/BluetoothConstants.h>
 
 static NSString *backgroundSrv  = @"ADAB4127-6E7D-4601-BDA2-BFFAA68956BA";
